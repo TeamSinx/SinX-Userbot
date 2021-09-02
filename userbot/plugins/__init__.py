@@ -1,80 +1,25 @@
-from userbot import topfunc
-from userbot.thunderconfig import Config
-from userbot.utils import lightning_cmd
-from var import Var
+# Copyright (C) 2019 The Raphielscape Company LLC.
+#
+# Licensed under the Raphielscape Public License, Version 1.c (the "License");
+# you may not use this file except in compliance with the License.
+#
+""" Init file which loads all of the modules """
+from userbot import LOGS
 
-idgen = topfunc.id_generator
-findnemo = topfunc.stark_finder
-issudousing = Config.SUDO_USERS
-islogokay = Config.PRIVATE_GROUP_ID
-isdbfine = Var.DB_URI
-isherokuokay = Var.HEROKU_APP_NAME
-gdriveisshit = Config.AUTH_TOKEN_DATA
-wttrapi = Config.OPEN_WEATHER_MAP_APPID
-rmbg = Config.REM_BG_API_KEY
-hmmok = Config.LYDIA_API
-currentversion = "4.0"
-telever = "5.0"
 
-if issudousing:
-    amiusingsudo = "Active ✅"
-else:
-    amiusingsudo = "Inactive ❌"
+def __list_all_modules():
+    import glob
+    from os.path import basename, dirname, isfile
 
-if islogokay:
-    logchat = "Connected ✅"
-else:
-    logchat = "Dis-Connected ❌"
+    mod_paths = glob.glob(dirname(__file__) + "/*.py")
+    all_modules = [
+        basename(f)[:-3]
+        for f in mod_paths
+        if isfile(f) and f.endswith(".py") and not f.endswith("__init__.py")
+    ]
+    return all_modules
 
-if isherokuokay:
-    riplife = "Connected ✅"
-else:
-    riplife = "Not Connected ❌"
 
-if gdriveisshit:
-    wearenoob = "Active ✅"
-else:
-    wearenoob = "Inactive ❌"
-
-if rmbg:
-    gendu = "Added ✅"
-else:
-    gendu = "Not Added ❌"
-
-if wttrapi:
-    starknoobs = "Added ✅"
-else:
-    starknoobs = "Not Added ❌"
-
-if hmmok:
-    meiko = "Added ✅"
-else:
-    meiko = "Not Added ❌"
-
-if isdbfine:
-    dbstats = "Fine ✅"
-else:
-    dbstats = "Not Fine ❌"
-
-if Config.PRIVATE_GROUP_BOT_API_ID is None:
-    BOTLOG = False
-    BOTLOG_CHATID = "me"
-else:
-    BOTLOG = True
-    BOTLOG_CHATID = Config.PRIVATE_GROUP_BOT_API_ID
-if Var.LIGHTNING_PRO.lower() == "NO":
-    light_pr = "NO"
-else:
-    lightning_pr = "YES"
-
-lightning_status = (
-    f"Sorry Sir In Some Plugin There Is A Telegram Bug\n"
-    f"Pls Try To Understand\n"
-    f"Instead Do .help <cmd name>\n\n"
-    f"VERSION = {currentversion} \n"
-    f"DATABASE = {dbstats} \n"
-    f"SUDO = {amiusingsudo} \n"
-    f"LOG-CHAT = {logchat} \n"
-    f"HEROKU = {riplife} \n"
-    f"G-DRIVE = {wearenoob}"
-)
+ALL_MODULES = sorted(__list_all_modules())
+LOGS.info("Modules to load: %s", str(ALL_MODULES))
+__all__ = ALL_MODULES + ["ALL_MODULES"]
